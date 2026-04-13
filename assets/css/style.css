@@ -1,0 +1,85 @@
+/* 基本重置 */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  background-color: #000; /* 背景黑色更有質感 */
+  color: #fff;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* --- 首頁：中央 LOGO --- */
+.center-logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none; /* 滑鼠可穿透 LOGO 點擊後方圖片 */
+}
+.center-logo img {
+  width: 200px; /* 依照你的 LOGO 調整 */
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+/* --- 主容器調整 --- */
+.horizontal-container {
+  display: flex;
+  flex-direction: column; /* 讓上下兩排垂直堆疊 */
+  height: 100vh;
+  width: 100vw;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: #000;
+  scrollbar-width: none;
+}
+.horizontal-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- 每一排的設定 --- */
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap; /* 絕對不換行，一直往右排下去 */
+  width: max-content; /* 關鍵：寬度由內容總和決定，確保不會縮進去 */
+  height: 50vh; /* 每一排佔螢幕一半高度 */
+}
+
+/* --- 圖片項目設定 --- */
+.scroll-item {
+  display: block;
+  height: 50vh;
+  width: auto; /* 寬度根據圖片比例自動推開 */
+  flex: 0 0 auto; /* 禁止圖片被壓縮 */
+}
+
+.gallery-img {
+  height: 100%;
+  width: auto;
+  display: block;
+  object-fit: contain; /* 完整顯示圖片比例 */
+
+  /* 如果你想要圖片之間有微小縫隙，可以保留 1px */
+  padding: 0;
+}
+
+/* 讓圖片在滑動時更流暢 */
+.scroll-item:hover {
+  filter: contrast(1.1);
+}
+
+.scroll-item:hover .gallery-img {
+  filter: brightness(1.2); /* 滑鼠經過時變亮 */
+}
+
+/* --- 修正中央 LOGO --- */
+.center-logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none; /* 讓滑鼠可以穿過 LOGO 點擊圖片 */
+}

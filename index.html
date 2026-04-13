@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<div class="row row-top">
+  {% for post in site.posts %} {% assign remainder = forloop.index0 | modulo: 2
+  %} {% if remainder == 0 %}
+  <a href="{{ post.url | relative_url }}" class="scroll-item">
+    <img
+      src="{{ post.cover_image | relative_url }}"
+      alt="{{ post.title }}"
+      class="gallery-img"
+    />
+  </a>
+  {% endif %} {% endfor %}
+</div>
+
+<div class="row row-bottom">
+  {% for post in site.posts %} {% assign remainder = forloop.index0 | modulo: 2
+  %} {% if remainder == 1 %}
+  <a href="{{ post.url | relative_url }}" class="scroll-item">
+    <img
+      src="{{ post.cover_image | relative_url }}"
+      alt="{{ post.title }}"
+      class="gallery-img"
+    />
+  </a>
+  {% endif %} {% endfor %}
+</div>
