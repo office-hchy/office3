@@ -8,8 +8,13 @@ layout: default
   <a href="{{ post.url | relative_url }}" class="scroll-item">
     <img
       src="{{ post.cover_image | relative_url }}"
-      alt="{{ post.title }}"
+      {{
+      post.cover_image
+      |
+      imagesize
+      }}
       class="gallery-img"
+      loading="lazy"
     />
   </a>
   {% endif %} {% endfor %}
@@ -21,8 +26,13 @@ layout: default
   <a href="{{ post.url | relative_url }}" class="scroll-item">
     <img
       src="{{ post.cover_image | relative_url }}"
-      alt="{{ post.title }}"
+      {{
+      post.cover_image
+      |
+      imagesize
+      }}
       class="gallery-img"
+      loading="lazy"
     />
   </a>
   {% endif %} {% endfor %}

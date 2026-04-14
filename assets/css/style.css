@@ -1,9 +1,9 @@
-/* 基本重置 */
+/* --- 基礎設定 --- */
 body,
 html {
   margin: 0;
   padding: 0;
-  background-color: #000; /* 背景黑色更有質感 */
+  background-color: #f1f1f1;
   color: #fff;
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -16,21 +16,27 @@ html {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
-  pointer-events: none; /* 滑鼠可穿透 LOGO 點擊後方圖片 */
+  pointer-events: none;
 }
 .center-logo img {
-  width: 200px; /* 依照你的 LOGO 調整 */
+  width: 180px;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
 
-/* --- 主容器調整 --- */
+/* --- 水平容器：反向捲動邏輯 --- */
 .horizontal-container {
   display: flex;
-  flex-direction: column; /* 讓上下兩排垂直堆疊 */
+  flex-direction: column;
   height: 100vh;
   width: 100vw;
+
+  /* 關鍵 1：設定方向為從右到左 */
+  direction: rtl;
+
+  /* 關鍵 2：確保捲軸出現在底部而非上方 */
   overflow-x: auto;
   overflow-y: hidden;
+
   background-color: #000;
   scrollbar-width: none;
 }
@@ -38,48 +44,115 @@ html {
   display: none;
 }
 
-/* --- 每一排的設定 --- */
 .row {
   display: flex;
+  /* 關鍵 3：雖然整體方向是 RTL，但我們讓 flex 內容橫向排開 */
   flex-direction: row;
-  flex-wrap: nowrap; /* 絕對不換行，一直往右排下去 */
-  width: max-content; /* 關鍵：寬度由內容總和決定，確保不會縮進去 */
-  height: 50vh; /* 每一排佔螢幕一半高度 */
+  flex-wrap: nowrap;
+  width: max-content;
+  height: 50vh;
 }
 
-/* --- 圖片項目設定 --- */
+/* 修正：因為 direction: rtl 會影響文字與圖片排列，我們在項目上校正回來 */
 .scroll-item {
+  direction: ltr; /* 讓圖片內部的邏輯回到左到右，避免某些瀏覽器渲染問題 */
   display: block;
   height: 50vh;
-  width: auto; /* 寬度根據圖片比例自動推開 */
-  flex: 0 0 auto; /* 禁止圖片被壓縮 */
+  width: auto;
+  flex: 0 0 auto;
 }
 
 .gallery-img {
   height: 100%;
   width: auto;
   display: block;
-  object-fit: contain; /* 完整顯示圖片比例 */
-
-  /* 如果你想要圖片之間有微小縫隙，可以保留 1px */
-  padding: 0;
-}
-
-/* 讓圖片在滑動時更流暢 */
-.scroll-item:hover {
-  filter: contrast(1.1);
+  object-fit: contain;
+  transition: filter 0.3s ease;
 }
 
 .scroll-item:hover .gallery-img {
-  filter: brightness(1.2); /* 滑鼠經過時變亮 */
+  filter: brightness(1.2);
 }
 
-/* --- 修正中央 LOGO --- */
-.center-logo {
+/* --- 貼文頁面 (Post Layout) --- */
+.post-page {
+  overflow-y: auto;
+  background-color: #f1f1f1; /* 淺灰色背景 */
+  color: #222; /* 深色文字確保對比度 */
+}
+
+/* 固定在右側中間的 X 按鈕 */
+.close-btn {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  pointer-events: none; /* 讓滑鼠可以穿過 LOGO 點擊圖片 */
+  right: 40px;
+  top: 5%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  color: #222; /* 按鈕改為深色 */
+  opacity: 0.5;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  text-decoration: none;
+}
+.close-btn:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* 內容主容器 */
+.post-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 3%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* 圖片包裝層：處理寬高限制的核心 */
+.post-image-wrapper {
+  width: 100%;
+  max-width: 1000px; /* 寬度上限 */
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: center; /* 確保圖片居中 */
+}
+
+.detail-img {
+  display: block;
+  /* 1. 寬度邏輯：預設填滿父層，但絕對不能超過視窗寬度 */
+  width: 100%;
+  max-width: 100%;
+
+  /* 2. 高度邏輯：確保直位圖片不會過長 */
+  max-height: 85vh;
+
+  /* 3. 核心修正：讓寬度根據高度比例自動縮放，且不超過 max-width */
+  width: auto;
+
+  object-fit: contain;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 文字區域寬度與圖片一致 */
+.post-header,
+.description {
+  width: 100%;
+  max-width: 1000px;
+  text-align: left;
+}
+
+.post-header h1 {
+  font-size: 1.8rem;
+  color: #111;
+  margin-bottom: 30px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.description {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #444; /* 稍微深灰色的文字，閱讀最舒服 */
 }

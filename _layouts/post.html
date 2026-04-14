@@ -10,17 +10,35 @@
     />
   </head>
   <body class="post-page">
-    <nav class="post-nav">
-      <a href="{{ '/' | relative_url }}">← 返回藝廊</a>
-    </nav>
+    <a href="{{ '/' | relative_url }}" class="close-btn">
+      <svg
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </a>
 
     <article class="post-content">
-      <img
-        src="{{ page.cover_image | relative_url }}"
-        alt="{{ page.title }}"
-        class="detail-img"
-      />
-      <h1>{{ page.title }}</h1>
+      <div class="post-image-wrapper">
+        <img
+          src="{{ page.cover_image | relative_url }}"
+          alt="{{ page.title }}"
+          class="detail-img"
+        />
+      </div>
+
+      <header class="post-header">
+        <h1>{{ page.title }}</h1>
+      </header>
+
       <div class="description">{{ content }}</div>
     </article>
   </body>

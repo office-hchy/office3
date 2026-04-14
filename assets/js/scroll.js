@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("scroll-container");
   if (container) {
     container.addEventListener("wheel", (e) => {
-      // 阻斷預設垂直捲動，改為操作容器的水平捲動位置
       if (e.deltaY !== 0) {
         e.preventDefault();
-        container.scrollLeft += e.deltaY;
+        // 在 RTL 模式下，往右滑動通常需要減去 deltaY
+        container.scrollLeft -= e.deltaY;
       }
     });
   }
