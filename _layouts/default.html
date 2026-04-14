@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ site.title }}</title>
     <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
       rel="stylesheet"
       href="{{ '/assets/css/style.css' | relative_url }}"
     />
@@ -22,5 +26,9 @@
     </main>
 
     <script src="{{ '/assets/js/scroll.js' | relative_url }}"></script>
+
+    <div id="post-overlay" class="post-overlay">
+      <div id="overlay-content"></div>
+    </div>
   </body>
 </html>

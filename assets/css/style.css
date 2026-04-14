@@ -1,15 +1,19 @@
-/* --- 基礎設定 --- */
+/* =========================================
+   1. 基礎設定 (Base)
+   ========================================= */
 body,
 html {
   margin: 0;
   padding: 0;
   background-color: #f1f1f1;
-  color: #fff;
+  color: #222; /* 預設文字改為深色 */
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* --- 首頁：中央 LOGO --- */
+/* =========================================
+   2. 首頁結構 (Home Page)
+   ========================================= */
 .center-logo {
   position: fixed;
   top: 50%;
@@ -23,20 +27,14 @@ html {
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
 }
 
-/* --- 水平容器：反向捲動邏輯 --- */
 .horizontal-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
-
-  /* 關鍵 1：設定方向為從右到左 */
   direction: rtl;
-
-  /* 關鍵 2：確保捲軸出現在底部而非上方 */
   overflow-x: auto;
   overflow-y: hidden;
-
   background-color: #000;
   scrollbar-width: none;
 }
@@ -46,22 +44,18 @@ html {
 
 .row {
   display: flex;
-  /* 關鍵 3：雖然整體方向是 RTL，但我們讓 flex 內容橫向排開 */
   flex-direction: row;
   flex-wrap: nowrap;
   width: max-content;
   height: 50vh;
 }
-
-/* 修正：因為 direction: rtl 會影響文字與圖片排列，我們在項目上校正回來 */
 .scroll-item {
-  direction: ltr; /* 讓圖片內部的邏輯回到左到右，避免某些瀏覽器渲染問題 */
+  direction: ltr;
   display: block;
   height: 50vh;
   width: auto;
   flex: 0 0 auto;
 }
-
 .gallery-img {
   height: 100%;
   width: auto;
@@ -69,63 +63,95 @@ html {
   object-fit: contain;
   transition: filter 0.3s ease;
 }
-
 .scroll-item:hover .gallery-img {
   filter: brightness(1.2);
 }
 
-/* --- 貼文頁面 (Post Layout) --- */
+/* =========================================
+   3. 貼文頁面與滑入抽屜 (Post & Overlay)
+   ========================================= */
 .post-page {
   overflow-y: auto;
-  background-color: #f1f1f1; /* 灰白背景 */
-  color: #222; /* 文字改回深色，否則在灰白背景看不到 */
+  background-color: #f1f1f1;
 }
 
-/* 黑底白叉關閉按鈕 */
-.close-btn {
+.post-overlay {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f1f1f1;
+  z-index: 2000;
+  overflow: hidden; /* 重要：禁止容器本身捲動 */
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* 新增：獨立的捲動層 */
+.drawer-body {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* 讓捲動發生在這裡 */
+  -webkit-overflow-scrolling: touch;
+}
+
+.post-overlay.active {
+  transform: translateY(0);
+}
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* 黑色正方形叉叉 */
+.post-overlay .close-btn {
+  position: absolute; /* 改用 absolute，因為它相對於 post-overlay 固定即可 */
   right: 5%;
   top: 40px;
-  z-index: 1000;
-  width: 40px; /* 圓圈大小 */
-  height: 40px;
-  background-color: #000; /* 黑底 */
-  border-radius: 0; /* 正方形 */
+  z-index: 2100;
   display: flex;
-  align-items: center;
   justify-content: center;
-  transition:
-    transform 0.3s ease,
-    background-color 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background-color: #000;
+  cursor: pointer;
 }
 
-.close-btn:hover {
-  transform: scale(1.1);
-  background-color: #333; /* 懸停時稍微變淡 */
-}
+/* =========================================
+   4. 寬度控制核心 (Layout & Alignment)
+   ========================================= */
 
-/* 主容器 */
+/* 1. 讓內容容器整體置中，但內部元素靠左對齊 */
 .post-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* 讓 1080px 的容器本身在畫面中間 */
   padding: 100px 0;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* 核心寬度控制：讓圖片、文字、影片容器全部統一 */
+/* 2. 定義所有內容區塊的共同寬度與對齊 */
 .post-gallery,
-.post-header,
 .post-info,
-.description > div,      /* 針對 Vimeo 那個 div */
-.description iframe,
-.description img {
-  width: 90%; /* 螢幕窄時留 5% padding */
-  max-width: 1080px; /* 核心限制 */
-  box-sizing: border-box;
+.description,
+.post-header,
+.video-container,
+.footnotes {
+  width: 90%;
+  max-width: 1080px;
   margin-left: auto;
+  margin-right: auto;
+  text-align: left; /* 強制文字靠左 */
+  box-sizing: border-box;
+}
+
+/* 3. 關鍵修正：確保 description 裡面的所有 Markdown 產生元素都跟隨寬度 */
+.description > * {
+  max-width: 1080px;
+  width: 100%;
+  margin-left: 0;
   margin-right: auto;
 }
 
@@ -136,132 +162,60 @@ html {
   gap: 20px;
   margin-bottom: 50px;
 }
-
 .detail-img {
-  width: 100%; /* 寬度隨父容器限制 */
+  width: 100%;
   height: auto;
   display: block;
 }
 
-/* 標題樣式 */
-
-.post-header {
-  text-align: left; /* 確保容器內容靠左 */
-  margin-top: 30px;
+/* =========================================
+   5. 字體與文字樣式 (Typography)
+   ========================================= */
+.post-header h1,
+.description,
+.description p,
+.description li,
+.description h3,
+.footnotes {
+  font-family: "Oswald", sans-serif !important;
+  color: #222;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 .post-header h1 {
-  font:
-    12px Oswald,
-    Helvetica Neue,
-    Helvetica,
-    Arial,
-    sans-serif;
-  color: #222;
-  font-weight: 400;
-  line-height: 1.6;
   text-transform: uppercase;
-  margin: 0 0 20px 0;
   letter-spacing: 1px;
-}
-
-/* 內文樣式 */
-.description {
-  /* 套用你指定的格式 */
-  font:
-    12px Oswald,
-    Helvetica Neue,
-    Helvetica,
-    Arial,
-    sans-serif;
-  color: #222;
-  font-weight: 400;
-  line-height: 1.6;
-
-  width: 100%;
-  display: block;
-  text-align: left;
-  align-items: center;
+  margin: 0 0 30px 0;
 }
 
 .description ul {
-  width: 90%;
-  max-width: 1080px; /* 與標題、圖片寬度一致 */
-  margin: 0 auto 20px auto; /* 容器居中，但內容靠左 */
-  padding-left: 20px; /* 給予點點足夠的顯示空間 */
-  list-style-position: outside; /* 確保點點在文字塊外面 */
-  text-align: left;
+  padding-left: 20px;
+  list-style-position: outside;
 }
 
 .description li {
-  font:
-    12px Oswald,
-    Helvetica Neue,
-    Helvetica,
-    Arial,
-    sans-serif;
-  color: #222;
-  line-height: 1.6;
-  margin-bottom: 10px;
-  text-align: left; /* 強制文字靠左 */
-}
-
-/* 3. 確保原本的段落 p 依然維持置中容器內的靠左對齊 */
-.description p {
-  width: 90%;
-  max-width: 1080px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left; /* */
-}
-
-.description div[style*="padding:56.25%"] {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  /* 這裡不需要重寫 max-width，上面那組 selector 已經鎖定了 */
-}
-
-/* 確保 Markdown 產生的段落也遵循相同字體 */
-.description p,
-.description h1,
-.description h2,
-.description h3,
-.description li {
-  font:
-    12px Oswald,
-    Helvetica Neue,
-    Helvetica,
-    Arial,
-    sans-serif;
-  color: #222;
-  font-weight: 400;
-  line-height: 1.6;
-
-  width: 90%;
-  max-width: 1080px;
-  margin-left: auto;
-  margin-right: auto;
   margin-bottom: 15px;
 }
 
-/* 確保影片容器在 post-content 中水平置中 */
+/* =========================================
+   6. 影片容器 (Videos)
+   ========================================= */
+/* 橫式影片 (16:9) */
 .video-container {
-  width: 90%;
-  max-width: 1080px; /* 依照你目前的設定 */
-  margin: 30px auto;
+  margin: 30px 0; /* 改為 0，因為父層已經處理 margin: auto */
   position: relative;
-}
-
-/* 預設 16:9 (橫式影片) */
-.video-container {
   padding-bottom: 56.25%;
   height: 0;
+  width: 100%; /* 繼承 1080px */
 }
 
-/* 針對 Shorts 的 9:16 (直式影片) */
+/* 直式影片 (Shorts 9:16) */
 .shorts-container {
-  max-width: 540px !important; /* 直式影片不建議開到 1080px，會太高，建議鎖在 400px 左右 */
-  /*padding-bottom: 177.77%; */
+  max-width: 540px !important;
+  padding-bottom: 177.77%;
+  margin-left: 0 !important; /* 跟隨文字靠左 */
 }
 
 .video-container iframe {
@@ -272,45 +226,20 @@ html {
   height: 100%;
 }
 
-/* --- 腳註樣式 (Footnotes) --- */
-
-/* 1. 確保腳註容器寬度與置中邏輯與其他內容一致 */
+/* =========================================
+   7. 腳註 (Footnotes)
+   ========================================= */
 .footnotes {
-  width: 90%;
-  max-width: 1080px;
-  margin: 50px auto 0 auto; /* 上方留點間距，水平置中 */
-  font:
-    10px Oswald,
-    sans-serif; /* 腳註通常比內文更小一點點 */
-  color: #666; /* 顏色稍微減淡 */
-  text-align: left;
+  margin-top: 50px;
+  font-size: 10px;
+  color: #666;
 }
-
-/* 2. 修正列表對齊與編號距離 */
-.footnotes ol {
-  padding-left: 15px; /* 縮小左側預設間距 */
-  margin: 0;
-  list-style-position: outside;
-}
-
-.footnotes li {
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-/* 3. 解決編號與內容隔太遠的問題 */
-/* 某些 Markdown 渲染器會把內容包在 p 標籤裡，導致掉下一行 */
-.footnotes li p {
-  display: inline; /* 讓內容跟隨在編號同一行 */
-  width: auto;
-  margin: 0;
-}
-
-/* 4. 腳註上方的分隔線 */
 .footnotes hr {
   border: 0;
   border-top: 1px solid #ddd;
-  margin-bottom: 20px;
-  width: 100px; /* 縮短分隔線看起來更精緻 */
-  margin-left: 0; /* 線條靠左 */
+  margin: 20px 0;
+  width: 100px;
+}
+.footnotes li p {
+  display: inline;
 }
