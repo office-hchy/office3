@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ page.title }} | {{ site.title }}</title>
     <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
       rel="stylesheet"
       href="{{ '/assets/css/style.css' | relative_url }}"
     />
@@ -12,12 +16,12 @@
   <body class="post-page">
     <a href="{{ '/' | relative_url }}" class="close-btn">
       <svg
-        width="30"
-        height="30"
+        width="14"
+        height="14"
         viewBox="0 0 24 24"
         fill="none"
-        stroke="currentColor"
-        stroke-width="2"
+        stroke="white"
+        stroke-width="3"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
@@ -27,13 +31,17 @@
     </a>
 
     <article class="post-content">
-      <div class="post-image-wrapper">
+      {% if page.images %}
+      <div class="post-gallery">
+        {% for img_path in page.images %}
         <img
-          src="{{ page.cover_image | relative_url }}"
-          alt="{{ page.title }}"
+          src="{{ img_path | relative_url }}"
           class="detail-img"
+          loading="lazy"
         />
+        {% endfor %}
       </div>
+      {% endif %}
 
       <header class="post-header">
         <h1>{{ page.title }}</h1>
