@@ -1,6 +1,6 @@
 title: 混成社
-baseurl: "https://konseisha.tw" # 如果你的 GitHub Repo 名稱不是 username.github.io，這裡要填入 /repo-name
-url: ""
+baseurl: ""
+url: "https://konseisha.tw"
 
 # 排除不需要編譯的檔案
 exclude:
