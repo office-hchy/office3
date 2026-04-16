@@ -1,6 +1,7 @@
 ---
 layout: post
 title: About Us
+cover_image: assets/images/about.webp
 links:
   - label: watch reels
     url: https://www.youtube.com/@hchytw
