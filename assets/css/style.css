@@ -261,3 +261,93 @@ body.no-scroll {
 .footnotes li p {
   display: inline;
 }
+
+/* =========================================
+   8. 右下角動態資訊面板 (Info Panel)
+   ========================================= */
+.info-panel {
+  position: absolute;
+  right: 5%; /* 與叉叉保持同樣的靠右對齊 */
+  bottom: 40px; /* 對齊畫面最底端 */
+  width: 44px; /* 初始寬度與叉叉同寬 (44px) */
+  background-color: #000;
+  overflow-y: auto; /* 如果內容真的超過最大高度，允許內部捲動 */
+  overflow-x: hidden;
+  transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 2100;
+
+  /* 修正問題一：限制最高長度，避免蓋過叉叉 */
+  /* 計算方式：100% 視窗高度 - 底部40px - 叉叉高度約44px - 頂部40px - 安全間距 20px */
+  max-height: calc(100vh - 40px - 44px - 40px - 20px);
+}
+
+/* 針對捲軸進行美化（可選，讓黑色面板看起來更一致） */
+.info-panel::-webkit-scrollbar {
+  width: 3px;
+}
+.info-panel::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+/* 滑鼠移入時，往左側展開面板 */
+.info-panel:hover {
+  width: 350px;
+}
+
+/* 內部文字容器（給定固定寬度，防止文字在展開動畫時斷行錯亂） */
+.info-content-inner {
+  width: 350px;
+  padding: 40px;
+  box-sizing: border-box;
+  opacity: 0; /* 初始隱藏文字 */
+  transition: opacity 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100%;
+}
+
+/* 面板展開時才讓文字淡入 */
+.info-panel:hover .info-content-inner {
+  opacity: 1;
+  transition-delay: 0.2s;
+}
+
+/* --- 面板內的文字排版 --- */
+.info-title {
+  font-family: "Oswald", sans-serif;
+  color: #fff;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+}
+
+.info-meta,
+.info-meta a {
+  font-family: "Oswald", sans-serif;
+  color: #aaa;
+  font-size: 12px;
+  margin: 0 0 5px 0;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.info-meta a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.info-desc {
+  margin-top: 25px;
+}
+
+.info-desc,
+.info-desc p,
+.info-desc li {
+  font-family: "Oswald", sans-serif; /* 如果有加載思源黑體也可以改用 */
+  color: #ccc;
+  font-size: 12px;
+  line-height: 1.6;
+}
