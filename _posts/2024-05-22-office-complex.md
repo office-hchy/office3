@@ -2,8 +2,9 @@
 layout: post
 title: STSP Pingtung Campus Mixed-use Building Complex
 permalink: /2403
-categories: visualisation
+project_type: visualisation
 author: hy
+link: https://youtube.com/shorts/eXe_D3M06Y4?si=zJsFHHXkQKAzj_3d
 cover_image: assets/images/project-images/2403-0.webp
 images:
   - assets/images/project-images/2403-0.webp

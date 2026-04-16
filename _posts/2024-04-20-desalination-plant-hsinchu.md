@@ -2,7 +2,7 @@
 layout: post
 title: Hsinchu Seawater Desalination Plant
 permalink: /2402
-categories: visualisation
+project_type: visualisation
 author: hy
 cover_image: assets/images/project-images/2402-0.webp
 images:

@@ -2,7 +2,7 @@
 layout: post
 title: Mijnbouwstraat 118c
 permalink: /2205
-categories: publication
+project_type: publication
 author: hy
 cover_image: assets/images/project-images/2205-0.webp
 images:

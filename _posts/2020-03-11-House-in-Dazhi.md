@@ -2,7 +2,7 @@
 layout: post
 title: House in Dazhi
 permalink: /2001
-categories: interior
+project_type: interior design
 author: hy
 cover_image: assets/images/project-images/2001-0.webp
 images:

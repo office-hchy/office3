@@ -2,7 +2,7 @@
 layout: post
 title: Shushi Mei Residence
 permalink: /2507
-categories: visualisation
+project_type: visualisation
 author: hy
 cover_image: assets/images/project-images/2507-0.webp
 images:

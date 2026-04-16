@@ -2,7 +2,7 @@
 layout: post
 title: Supermarket
 permalink: /2202
-categories: architecture
+project_type: architecture
 author: hy
 cover_image: assets/images/project-images/2202-0.webp
 images:

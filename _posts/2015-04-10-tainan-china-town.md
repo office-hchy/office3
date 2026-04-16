@@ -2,7 +2,7 @@
 layout: post
 title: Tainan China Town
 permalink: /1501
-categories: film
+project_type: film
 author: hy
 cover_image: assets/images/project-images/1501-0.webp
 images:

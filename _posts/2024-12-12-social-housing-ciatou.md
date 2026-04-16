@@ -2,8 +2,9 @@
 layout: post
 title: Ciatou Social Housing
 permalink: /2406
-categories: visualisation
+project_type: visualisation
 author: hy
+link: https://youtube.com/shorts/hBVRImWRUE8?si=FU8RCo4oCP6nNkm6
 cover_image: assets/images/project-images/2406-0.webp
 images:
   - assets/images/project-images/2406-0.webp

@@ -1,11 +1,14 @@
 ---
 layout: post
-title: About Me
+title: About Us
+links:
+  - label: watch reels
+    url: https://www.youtube.com/@hchytw
 ---
 
-# 混成社
+## 混成社
 
-## _有物混成，先天地生。_
+### _有物混成，先天地生。_
 
 混成社是一間積極探索影像媒介與數位工具對建築的影響的設計工作室。
 

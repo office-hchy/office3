@@ -2,7 +2,7 @@
 layout: post
 title: Intro Animation for the Documentary "Fatconomy"
 permalink: /2508
-categories: animation
+project_type: animation
 author: hy
 cover_image: assets/images/project-images/2508-0.webp
 images:

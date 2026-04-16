@@ -1,7 +1,7 @@
 ---
 layout: post
 title: All Watched by Machines of Loving Grace
-categories: academy
+project_type: academy
 permalink: /2102
 author: hy
 cover_image: assets/images/project-images/2102-0.webp

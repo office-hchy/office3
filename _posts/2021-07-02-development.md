@@ -2,8 +2,15 @@
 layout: post
 title: "The Product, the Document, and the Building Type"
 permalink: /2105
-categories: research
+project_type: research
 author: hy
+links:
+  - label: "part I: the Product"
+    url: "https://vimeo.com/534512198/61b2cc4edb"
+  - label: "part II: the Document"
+    url: "https://vimeo.com/534513992/27aa2cb333"
+  - label: "part III: the Building Type"
+    url: "https://vimeo.com/534520899/5836bc6ece"
 cover_image: assets/images/project-images/2105-0.webp
 images:
   - assets/images/project-images/2105-0.webp

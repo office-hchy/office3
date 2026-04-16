@@ -2,8 +2,9 @@
 layout: post
 title: "Welcome to Albert Heijn: an Annotated Analysis"
 permalink: /2106
-categories: research
+project_type: research
 author: hy
+link: https://vimeo.com/696200379/ccae5011db
 cover_image: assets/images/project-images/2106-0.webp
 images:
   - assets/images/project-images/2106-0.webp
@@ -13,8 +14,6 @@ images:
 ---
 
 ### This collective research, focused on the food industry in the Netherlands and beyond, commences with the typological analysis of a supermarket. Analysing a local Albert Heijn, it examines the relation between products, their associated building types, and territories, from raw materials to supermarket shelves. The annotated analysis of Albert Heijn reveals the dichotomy within the functioning of a supermarket, between the meticulously designed sales floor for an immersive consumer experience and the concealed back of house associated with the product’s supply chain.
-
-### watch the video [here](https://vimeo.com/696200379/ccae5011db).
 
 <br>
 <br>
