@@ -35,24 +35,44 @@
       </svg>
     </a>
 
-    <article class="post-content">
-      {% if page.images %}
-      <div class="post-gallery">
-        {% for img_path in page.images %}
-        <img
-          src="{{ img_path | relative_url }}"
-          class="detail-img"
-          loading="lazy"
-        />
-        {% endfor %}
+    <div class="post-gallery-container">
+      <div class="post-content">
+        {% if page.images %}
+        <div class="post-gallery">
+          {% for img_path in page.images %}
+          <img
+            src="{{ img_path | relative_url }}"
+            class="detail-img"
+            loading="lazy"
+          />
+          {% endfor %}
+        </div>
+        {% endif %}
       </div>
-      {% endif %}
+    </div>
 
-      <header class="post-header">
-        <h1>{{ page.title }}</h1>
-      </header>
+    <div class="info-panel">
+      <div class="info-content-inner">
+        <h1 class="info-title">{{ page.title }}</h1>
 
-      <div class="description">{{ content }}</div>
-    </article>
+        {% if page.project_type %}
+        <p class="info-meta">{{ page.project_type }}</p>
+        {% endif %} {% if page.links %}
+        <div class="info-links">
+          {% for item in page.links %}
+          <p class="info-meta">
+            <a href="{{ item.url }}" target="_blank">{{ item.label }} ↗</a>
+          </p>
+          {% endfor %}
+        </div>
+        {% elsif page.link %}
+        <p class="info-meta">
+          <a href="{{ page.link }}" target="_blank">Watch Video ↗</a>
+        </p>
+        {% endif %}
+
+        <div class="info-desc">{{ content }}</div>
+      </div>
+    </div>
   </body>
 </html>
