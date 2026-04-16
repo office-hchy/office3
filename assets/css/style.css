@@ -22,9 +22,27 @@ html {
   z-index: 100;
   pointer-events: none;
 }
+
+/* 新增：讓 Logo 本身可以點擊，並加入懸停效果 */
+.center-logo .about-link {
+  pointer-events: auto; /* 恢復連結的點擊功能 */
+  display: block;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+/* 游標滑過時稍微放大發光，提示使用者可以點擊 */
+.center-logo .about-link:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+}
+
 .center-logo img {
   width: 180px;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+  display: block;
 }
 
 .horizontal-container {
@@ -140,7 +158,7 @@ body.no-scroll {
 .video-container,
 .footnotes {
   width: 90%;
-  max-width: 1080px;
+  max-width: 720px;
   margin-left: auto;
   margin-right: auto;
   text-align: left; /* 強制文字靠左 */
@@ -149,7 +167,7 @@ body.no-scroll {
 
 /* 3. 關鍵修正：確保 description 裡面的所有 Markdown 產生元素都跟隨寬度 */
 .description > * {
-  max-width: 1080px;
+  max-width: 720px;
   width: 100%;
   margin-left: 0;
   margin-right: auto;
