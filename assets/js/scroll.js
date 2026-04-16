@@ -34,14 +34,19 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((html) => {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, "text/html");
-          const postContent = doc.querySelector(".post-content").outerHTML;
+          const galleryContainer = doc.querySelector(
+            ".post-gallery-container",
+          ).outerHTML;
+          const infoPanel = doc.querySelector(".info-panel").outerHTML;
           const closeBtnHTML = doc.querySelector(".close-btn").outerHTML;
 
+          // 組合 HTML：讓 infoPanel 跟 closeBtn 一樣固定在外層
           overlay.innerHTML = `
-            ${closeBtnHTML} 
-            <div class="drawer-body">
-              ${postContent}
-            </div>
+           ${closeBtnHTML} 
+          <div class="drawer-body">
+          ${galleryContainer}
+           </div>
+           ${infoPanel}
           `;
 
           overlay.classList.add("active");
