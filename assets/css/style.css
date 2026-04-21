@@ -263,52 +263,68 @@ body.no-scroll {
 }
 
 /* =========================================
-   8. 右下角動態資訊面板 (點擊展開版)
+   8. 右下角動態資訊面板
    ========================================= */
 .info-panel {
   position: absolute;
   right: 5%;
   bottom: 40px;
-  width: 44px; /* 初始收合寬度 */
+  width: 44px;
   background-color: #000;
+
+  /* 關鍵 1：外層只負責「寬度」動畫，不負責捲動 */
   overflow: hidden;
   transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   z-index: 2100;
-  cursor: pointer; /* 提示可點擊 */
+  cursor: pointer;
+
+  /* 限制最大高度 */
   max-height: calc(100vh - 144px);
+
+  /* 關鍵 2：改為 Flex 佈局，讓箭頭跟內容垂直排列 */
+  display: flex;
+  flex-direction: column;
 }
 
-/* 當加上 .expanded 類別時展開 */
 .info-panel.expanded {
   width: 350px;
 }
 
-/* 箭頭容器 */
+/* 箭頭：固定在頂部，不參與捲動 */
 .info-toggle {
+  flex: 0 0 44px; /* 固定高度 44px，不縮放 */
   width: 44px;
-  height: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.info-toggle svg {
-  transition: transform 0.4s ease;
-  transform: rotate(0deg); /* 初始指向左 < */
-}
-
-/* 展開時箭頭反轉指向右 > */
-.info-panel.expanded .info-toggle svg {
-  transform: rotate(180deg);
-}
-
-/* 內部文字容器 */
+/* 關鍵 3：內部文字容器負責捲動 */
 .info-content-inner {
   width: 350px;
-  padding: 0 40px 40px 40px; /* 頂部留給箭頭空間 */
+  padding: 0 40px 40px 40px;
   box-sizing: border-box;
   opacity: 0;
   transition: opacity 0.3s ease;
+
+  /* 捲動設定 */
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-grow: 1; /* 佔滿剩餘高度 */
+
+  /* 讓內容在短的時候靠下，長的時候正常排列 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* 美化內部捲軸（可選） */
+.info-content-inner::-webkit-scrollbar {
+  width: 4px;
+}
+.info-content-inner::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 2px;
 }
 
 .info-panel.expanded .info-content-inner {
@@ -316,10 +332,10 @@ body.no-scroll {
   transition-delay: 0.2s;
 }
 
-/* --- 響應式手機版設定 --- */
+/* 手機版同步修正 */
 @media (max-width: 768px) {
   .info-panel.expanded {
-    width: 85vw; /* 手機版展開寬度改為視窗的 85% */
+    width: 85vw;
   }
   .info-content-inner {
     width: 85vw;
@@ -337,19 +353,28 @@ body.no-scroll {
   line-height: 1.2;
 }
 
-.info-meta,
-.info-meta a {
+/* 統一設定所有在 info-panel 裡的連結 */
+.info-panel a {
+  font-family: "Oswald", sans-serif;
+  color: #ffffff !important; /* 強制變為純白 */
+  font-size: 12px;
+  font-weight: 500; /* 稍微加粗提高辨識度 */
+  text-decoration: underline; /* 去掉預設細底線 */
+  display: inline-block; /* 讓 padding 生效 */
+  margin-bottom: 5px;
+}
+
+.info-panel a:hover {
+  opacity: 0.7; /* 懸停時稍微變透明提示點擊 */
+  border-color: #aaaaaa; /* 懸停時底線顏色微變 */
+}
+
+.info-meta {
   font-family: "Oswald", sans-serif;
   color: #aaa;
   font-size: 12px;
   margin: 0 0 5px 0;
   text-transform: uppercase;
-  text-decoration: none;
-}
-
-.info-meta a:hover {
-  color: #fff;
-  text-decoration: underline;
 }
 
 .info-desc {
@@ -359,8 +384,14 @@ body.no-scroll {
 .info-desc,
 .info-desc p,
 .info-desc li {
-  font-family: "Oswald", sans-serif; /* 如果有加載思源黑體也可以改用 */
+  font-family: "Oswald", sans-serif;
   color: #ccc;
   font-size: 12px;
   line-height: 1.6;
+}
+
+/* 如果 info-desc 內部也有連結，確保也套用同樣樣式 */
+.info-desc a {
+  color: #ffffff;
+  text-decoration: underline;
 }
