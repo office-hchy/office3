@@ -263,55 +263,68 @@ body.no-scroll {
 }
 
 /* =========================================
-   8. 右下角動態資訊面板 (Info Panel)
+   8. 右下角動態資訊面板 (點擊展開版)
    ========================================= */
 .info-panel {
   position: absolute;
-  right: 5%; /* 與叉叉保持同樣的靠右對齊 */
-  bottom: 40px; /* 對齊畫面最底端 */
-  width: 44px; /* 初始寬度與叉叉同寬 (44px) */
+  right: 5%;
+  bottom: 40px;
+  width: 44px; /* 初始收合寬度 */
   background-color: #000;
-  overflow-y: auto; /* 如果內容真的超過最大高度，允許內部捲動 */
-  overflow-x: hidden;
-  transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+  transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   z-index: 2100;
-
-  /* 修正問題一：限制最高長度，避免蓋過叉叉 */
-  /* 計算方式：100% 視窗高度 - 底部40px - 叉叉高度約44px - 頂部40px - 安全間距 20px */
-  max-height: calc(100vh - 40px - 44px - 40px - 20px);
+  cursor: pointer; /* 提示可點擊 */
+  max-height: calc(100vh - 144px);
 }
 
-/* 針對捲軸進行美化（可選，讓黑色面板看起來更一致） */
-.info-panel::-webkit-scrollbar {
-  width: 3px;
-}
-.info-panel::-webkit-scrollbar-thumb {
-  background: #333;
-}
-
-/* 滑鼠移入時，往左側展開面板 */
-.info-panel:hover {
+/* 當加上 .expanded 類別時展開 */
+.info-panel.expanded {
   width: 350px;
 }
 
-/* 內部文字容器（給定固定寬度，防止文字在展開動畫時斷行錯亂） */
+/* 箭頭容器 */
+.info-toggle {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-toggle svg {
+  transition: transform 0.4s ease;
+  transform: rotate(0deg); /* 初始指向左 < */
+}
+
+/* 展開時箭頭反轉指向右 > */
+.info-panel.expanded .info-toggle svg {
+  transform: rotate(180deg);
+}
+
+/* 內部文字容器 */
 .info-content-inner {
   width: 350px;
-  padding: 40px;
+  padding: 0 40px 40px 40px; /* 頂部留給箭頭空間 */
   box-sizing: border-box;
-  opacity: 0; /* 初始隱藏文字 */
+  opacity: 0;
   transition: opacity 0.3s ease;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 100%;
 }
 
-/* 面板展開時才讓文字淡入 */
-.info-panel:hover .info-content-inner {
+.info-panel.expanded .info-content-inner {
   opacity: 1;
   transition-delay: 0.2s;
+}
+
+/* --- 響應式手機版設定 --- */
+@media (max-width: 768px) {
+  .info-panel.expanded {
+    width: 85vw; /* 手機版展開寬度改為視窗的 85% */
+  }
+  .info-content-inner {
+    width: 85vw;
+    padding: 0 25px 30px 25px;
+  }
 }
 
 /* --- 面板內的文字排版 --- */

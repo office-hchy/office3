@@ -34,24 +34,37 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((html) => {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, "text/html");
+
           const galleryContainer = doc.querySelector(
             ".post-gallery-container",
           ).outerHTML;
           const infoPanel = doc.querySelector(".info-panel").outerHTML;
           const closeBtnHTML = doc.querySelector(".close-btn").outerHTML;
 
-          // 組合 HTML：讓 infoPanel 跟 closeBtn 一樣固定在外層
+          // 注入 HTML
           overlay.innerHTML = `
-           ${closeBtnHTML} 
-          <div class="drawer-body">
-          ${galleryContainer}
-           </div>
-           ${infoPanel}
-          `;
+    ${closeBtnHTML} 
+    <div class="drawer-body">
+      ${galleryContainer}
+    </div>
+    ${infoPanel}
+  `;
+
+          // --- 重點：綁定點擊展開/收合事件 ---
+          const panel = overlay.querySelector(".info-panel");
+          if (panel) {
+            panel.addEventListener("click", function (e) {
+              // 如果點擊的是裡面的連結，不要收合面板
+              if (e.target.tagName.toLowerCase() === "a") return;
+
+              this.classList.toggle("expanded");
+            });
+          }
 
           overlay.classList.add("active");
           document.body.classList.add("no-scroll");
 
+          // 關閉按鈕邏輯保持不變
           overlay.querySelector(".close-btn").onclick = (e) => {
             e.preventDefault();
             closeDrawer();
