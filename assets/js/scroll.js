@@ -81,3 +81,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 600);
   }
 });
+
+window.addEventListener("load", () => {
+  const container = document.getElementById("scroll-container");
+  if (container) {
+    // 1. 先偷偷把捲軸推到最右邊（也就是最新貼文的位置）
+    container.scrollLeft = container.scrollWidth;
+
+    // 2. 觸發從左側滑入的動畫
+    setTimeout(() => {
+      container.classList.add("loaded");
+    }, 500);
+  }
+});
