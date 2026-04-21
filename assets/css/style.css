@@ -55,9 +55,24 @@ html {
   overflow-y: hidden;
   background-color: #000;
   scrollbar-width: none;
+
+  /* 動畫初始狀態 */
+  opacity: 0;
+  transform: translateX(-100px);
+  pointer-events: none;
+  transition:
+    opacity 1.2s ease,
+    transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
+
 .horizontal-container::-webkit-scrollbar {
   display: none;
+}
+
+.horizontal-container.loaded {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
 }
 
 .row {
