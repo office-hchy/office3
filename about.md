@@ -35,4 +35,4 @@ links:
 
 影片作品集可在 [YouTube](https://www.youtube.com/@hchytw) 觀看。
 
-歡迎透過<info@konseisha.tw>與我們聯繫。
+歡迎透過<hello@konseisha.tw>與我們聯繫。
