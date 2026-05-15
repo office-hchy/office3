@@ -410,3 +410,33 @@ body.no-scroll {
   color: #ffffff;
   text-decoration: underline;
 }
+
+/* =========================================
+   Loading 狀態下的 Logo 連動淡入動畫 (Progressive Fade-in)
+   ========================================= */
+.center-logo {
+  --progress: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none;
+}
+
+body.is-loading .center-logo img {
+  /* 根據進度 0~100，轉換為透明度 0~1 */
+  opacity: calc(var(--progress) / 100);
+
+  /* 加入極微小的縮放效果，讓淡入看起來有呼吸感（選用） */
+  transform: scale(calc(0.95 + (var(--progress) * 0.0005)));
+}
+
+/* 載入完成狀態：確保完全顯示並加上平滑過渡 */
+body:not(.is-loading) .center-logo img {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
