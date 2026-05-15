@@ -1,3 +1,79 @@
+// --- 新增：帶有百分比進度的圖片載入偵測 ---
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("scroll-container");
+  const logo = document.querySelector(".center-logo");
+  if (!container || !logo) return;
+
+  const initialImages = Array.from(
+    document.querySelectorAll(".gallery-img"),
+  ).slice(0, 6);
+
+  if (initialImages.length === 0) {
+    showGallery(container);
+    return;
+  }
+
+  let loadedCount = 0;
+  let targetProgress = 0; // 真實的載入進度 (0 到 100)
+  let currentProgress = 0; // 畫面顯示的平滑進度 (0 到 100)
+
+  // 更新目標進度
+  const updateTargetProgress = () => {
+    targetProgress = (loadedCount / initialImages.length) * 100;
+  };
+
+  // 綁定圖片載入事件
+  const onImageLoad = () => {
+    loadedCount++;
+    updateTargetProgress();
+  };
+
+  initialImages.forEach((img) => {
+    if (img.complete) {
+      onImageLoad();
+    } else {
+      img.addEventListener("load", onImageLoad);
+      img.addEventListener("error", onImageLoad);
+    }
+  });
+
+  // 初始給一點點進度，讓底下有一點點墨水先滲出來
+  targetProgress = 5;
+
+  // 動畫迴圈：讓 currentProgress 平滑追趕 targetProgress
+  const animateProgress = () => {
+    // 0.05 是追趕速度，數字越小墨水流動越慢越滑順
+    currentProgress += (targetProgress - currentProgress) * 0.05;
+
+    // 將進度寫入 CSS 變數
+    logo.style.setProperty("--progress", currentProgress);
+
+    // 當幾乎達到 100% 時，觸發畫廊顯示
+    if (currentProgress > 99) {
+      logo.style.setProperty("--progress", 100);
+      showGallery(container);
+    } else {
+      requestAnimationFrame(animateProgress);
+    }
+  };
+
+  // 啟動動畫引擎
+  requestAnimationFrame(animateProgress);
+
+  // 安全機制：最多等 3.5 秒就強制把進度推到 100%
+  setTimeout(() => {
+    targetProgress = 100;
+  }, 3500);
+});
+
+// 統一顯示畫廊的函數
+function showGallery(container) {
+  if (!container.classList.contains("loaded")) {
+    container.classList.add("loaded");
+    document.body.classList.remove("is-loading");
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("scroll-container");
   const overlay = document.getElementById("post-overlay");
@@ -79,18 +155,5 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       overlay.innerHTML = "";
     }, 600);
-  }
-});
-
-window.addEventListener("load", () => {
-  const container = document.getElementById("scroll-container");
-  if (container) {
-    // 1. 先偷偷把捲軸推到最右邊（也就是最新貼文的位置）
-    container.scrollLeft = container.scrollWidth;
-
-    // 2. 觸發從左側滑入的動畫
-    setTimeout(() => {
-      container.classList.add("loaded");
-    }, 500);
   }
 });
